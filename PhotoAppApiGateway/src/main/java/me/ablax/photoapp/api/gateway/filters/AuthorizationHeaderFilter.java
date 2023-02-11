@@ -1,4 +1,4 @@
-package me.ablax.photoapp.api.gateway;
+package me.ablax.photoapp.api.gateway.filters;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
