@@ -4,6 +4,7 @@ import me.ablax.photoapp.api.users.service.UsersService;
 import me.ablax.photoapp.api.users.shared.UserDto;
 import me.ablax.photoapp.api.users.ui.model.CreateUserRequestModel;
 import me.ablax.photoapp.api.users.ui.model.CreateUserResponseModel;
+import me.ablax.photoapp.api.users.ui.model.UserResponseModel;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +39,7 @@ public class UserController {
 
     @GetMapping("status/check")
     public String status() {
-        return "Working on port " + environment.getProperty("local.server.port") + " with token" + environment.getProperty("token.secret");
+        return "Working on port " + environment.getProperty("local.server.port");
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -51,5 +53,14 @@ public class UserController {
         return new ResponseEntity<>(responseModel, HttpStatus.CREATED);
     }
 
+    @GetMapping(value = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<UserResponseModel> getUser(@PathVariable final String userId) {
+
+        final UserDto userDto = usersService.getUserByUserId(userId);
+
+        final UserResponseModel returnValue = modelMapper.map(userDto, UserResponseModel.class);
+
+        return ResponseEntity.ok(returnValue);
+    }
 
 }
