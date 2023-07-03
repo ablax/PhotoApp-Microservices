@@ -9,7 +9,6 @@ import me.ablax.photoapp.api.users.ui.model.AlbumResponseModel;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,14 +25,13 @@ public class UsersServiceImpl implements UsersService {
     private final ModelMapper modelMapper;
     private final UsersRepository usersRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final Environment environment;
     private final AlbumsServiceClient albumsServiceClient;
 
     @Autowired
-    public UsersServiceImpl(final UsersRepository usersRepository, final BCryptPasswordEncoder bCryptPasswordEncoder, final Environment environment, final AlbumsServiceClient albumsServiceClient) {
+    public UsersServiceImpl(final UsersRepository usersRepository, final BCryptPasswordEncoder bCryptPasswordEncoder,
+                            final AlbumsServiceClient albumsServiceClient) {
         this.usersRepository = usersRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.environment = environment;
         this.albumsServiceClient = albumsServiceClient;
         this.modelMapper = new ModelMapper();
         this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
